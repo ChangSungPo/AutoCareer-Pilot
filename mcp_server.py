@@ -14,6 +14,7 @@ async def initialize_mcp_server():
     if _mcp_server:
         return _mcp_server
 
+    # bright data
     try:
         server = MCPServerStdio(
             cache_tools_list=False,
@@ -33,6 +34,7 @@ async def initialize_mcp_server():
         _mcp_server = server
         return server
     
+    # local mcp_server_fetch
     # try:
     #     server = MCPServerStdio(
     #         cache_tools_list=False,
