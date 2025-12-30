@@ -1,0 +1,5 @@
+agents==1.4.0
+nest_asyncio==1.6.0
+openai==2.14.0
+python-dotenv==1.2.1
+streamlit==1.52.2

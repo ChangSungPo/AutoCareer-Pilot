@@ -14,10 +14,16 @@ logger = logging.getLogger(__name__)
 
 async def run_analysis(mcp_server: MCPServer, linkedin_url: str, api_key: str):
     logger.info(f"Starting analysis for LinkedIn URL: {linkedin_url}")
-    # api_key = os.environ["GEMINI_API_KEY"]
-    base_url = "https://generativelanguage.googleapis.com/v1beta/" 
+    #gemini
+    # base_url = "https://generativelanguage.googleapis.com/v1beta/"  
+    # model_name = "gemini-2.5-flash"
+    
+    #local ollama
+    base_url = "http://localhost:11434/v1"  
+    model_name = "llama3.1"
+    
     client = AsyncOpenAI(base_url=base_url, api_key=api_key)
-    model_name = "gemini-2.5-flash"
+    
     set_tracing_disabled(disabled=True)
     
     linkedin_agent = Agent(
