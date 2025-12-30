@@ -14,44 +14,37 @@ async def initialize_mcp_server():
     if _mcp_server:
         return _mcp_server
 
-    # try:
-    #     server = MCPServerStdio(
-    #         cache_tools_list=False,
-    #         params={
-    #             "command": "npx",
-    #             "args": ["-y", "@brightdata/mcp"],
-    #             "env": {
-    #                 "API_TOKEN": os.environ["BRIGHT_DATA_API_KEY"],
-    #                 "WEB_UNLOCKER_ZONE": "mcp_unlocker",
-    #                 "BROWSER_AUTH": os.environ["BROWSER_AUTH"],
-    #             }
-    #         }
-    #     )
-
-    #     await asyncio.wait_for(server.__aenter__(), timeout=10)
-    #     _mcp_server = server
-    #     return server
-    
     try:
         server = MCPServerStdio(
             cache_tools_list=False,
-            # params={
-            #     "command": sys.executable,
-            #     "args": ["-y", "mcp_server_fetch"]
-            # }
+            client_session_timeout_seconds=30.0,
             params={
-                "command": sys.executable,
-                "args": ["-u", "-m", "mcp_server_fetch"], 
+                "command": "npx",
+                "args": ["-y", "@brightdata/mcp"],
                 "env": {
-                    **os.environ,
-                    "PYTHONUNBUFFERED": "1"
+                    "API_TOKEN": os.environ["BRIGHT_DATA_API_KEY"],
+                    "WEB_UNLOCKER_ZONE": "mcp_unlocker",
+                    "BROWSER_AUTH": os.environ["BROWSER_AUTH"],
                 }
             }
         )
 
-        await asyncio.wait_for(server.__aenter__(), timeout=15)
+        await asyncio.wait_for(server.__aenter__(), timeout=10)
         _mcp_server = server
         return server
+    
+    # try:
+    #     server = MCPServerStdio(
+    #         cache_tools_list=False,
+    #         params={
+    #             "command": sys.executable,
+    #             "args": ["-m", "mcp_server_fetch"]
+    #         }
+    #     )
+
+    #     await asyncio.wait_for(server.__aenter__(), timeout=15)
+    #     _mcp_server = server
+    #     return server
 
     except Exception as e:
         logger.error(f"Error initializing MCP server: {e}")
